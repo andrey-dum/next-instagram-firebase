@@ -1,5 +1,6 @@
 import React from 'react'
-import Stories from './Stories'
+import Posts from './Posts/Posts'
+import Stories from './Stories/Stories'
 
 function Feed() {
   return (
@@ -7,6 +8,7 @@ function Feed() {
        
 			<section className='col-span-2'>
             <Stories />
+						<Posts />
       </section>
 
         <div></div>
