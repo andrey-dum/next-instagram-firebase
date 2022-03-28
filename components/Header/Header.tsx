@@ -52,7 +52,7 @@ function Header() {
                 <HomeIcon className='navBtn ' />
                 <MenuIcon className='h-6 md:hidden cursor-pointer' />
 
-                <div className='relative navBtn'>
+                <div className='relative h-6 w-6'>
                     <div 
                         className='absolute -top-1 -right-2 rounded-full text-xs w-5 h-5 bg-red-500 flex items-center justify-center animate-pulse z-10 text-white'
                     >3</div>
