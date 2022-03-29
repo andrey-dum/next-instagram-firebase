@@ -2,7 +2,7 @@ import React from 'react'
 import Post from './Post'
 
 
-const posts = [
+export const posts = [
   {
       id: 'e',
       username: 'Jhon Doe',

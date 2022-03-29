@@ -18,7 +18,9 @@ function Stories() {
 	}, [])
 
   return (
-    <div id="stories" className='mt-5 mb-5 flex space-x-2 
+    <div 
+		id="stories" 
+		className='mt-5 mb-5 flex space-x-2 
 		p-6 bg-wight border-gray-200 border rounded-sm
 		 overflow-x-scroll object-contain cursor-pointer
 		  scrollbar-thin scrollbar-thumb-gray-400'>

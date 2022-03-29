@@ -43,7 +43,7 @@ function Post({
         <div className='flex p-4 justify-between'>
             <div className='flex space-x-2'>
                 <HeartIcon className='iconBtn' />
-                <HeartIconSolid className='iconBtn' />
+                {/* <HeartIconSolid className='iconBtn' /> */}
                 <ChatIcon className='iconBtn' />
                 <PaperAirplaneIcon className='iconBtn rotate-90' />
             </div>
