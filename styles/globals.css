@@ -13,3 +13,7 @@
         transition-all duration-150 ease-out
     }
 }
+
+* {
+    box-sizing: border-box;
+}

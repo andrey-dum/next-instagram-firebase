@@ -27,7 +27,7 @@ function Suggestions() {
 				suggestions.length && suggestions.map((profile: any) => (
 					<div 
 						key={profile.name}
-						className='flex items-center justify-between mt-3 space-x-2'
+						className='flex w-full items-center justify-between mt-3'
 					>
             <img
               src={profile.avatar}
@@ -35,7 +35,7 @@ function Suggestions() {
               className='w-10 h-10 rounded-full border p-[2px]'
             />
 
-            <div className='flex-1'>
+            <div className='flex-1 ml-2'>
               <h2 className='font-semibold text-sm'>
                 {profile.username}
               </h2>

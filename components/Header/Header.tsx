@@ -17,23 +17,28 @@ import {
     // HomeIcon
 } from '@heroicons/react/outline'
 import { signOut, useSession, signIn} from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 function Header() {
     const { data: session} = useSession()
-    console.log(session)
-
+    const router = useRouter()
 
   return (
     <div className='flex justify-center sticky top-0 z-50 shadow-sm border-b bg-white'>
         <div className='flex justify-between max-w-6xl w-full mx-5 xl:mx-auto'>
-            <div className='relative hidden lg:inline-grid w-24 cursor-pointer'>
+            <div
+                onClick={() => router.push('/')}
+                className='relative hidden lg:inline-grid w-24 cursor-pointer'
+            >
                 <Image
                     src="https://links.papareact.com/ocw"
                     layout='fill'
                     objectFit='contain'
                 />
             </div>
-            <div className='relative lg:hidden flex-shrink-0 w-10 cursor-pointer'>
+            <div
+                onClick={() => router.push('/')}
+                className='relative lg:hidden flex-shrink-0 w-10 cursor-pointer'>
                 <Image
                     src="https://links.papareact.com/jjm"
                     layout='fill'
@@ -54,7 +59,10 @@ function Header() {
             </div>
 
             <div className='flex items-center justify-end space-x-4'>
-                <HomeIcon className='navBtn ' />
+                <HomeIcon 
+                    onClick={() => router.push('/')} 
+                    className='navBtn ' 
+                />
                 <MenuIcon className='h-6 md:hidden cursor-pointer' />
 
                 {
@@ -72,7 +80,7 @@ function Header() {
                         <HeartIcon className='navBtn' />
 
                         <img
-                            onClick={signOut}
+                            // onClick={signOut}
                             className='h-10 w-10 rounded-full cursor-pointer'
                             src={session?.user?.image}
                         />

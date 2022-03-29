@@ -10,7 +10,7 @@ function Stories() {
 	useEffect(() => {
 		const suggestions = [...Array(20)].map((_, i) => ({
 			...faker.helpers.contextualCard(),
-			id: 1
+			id: i
 		}))
 
 		setSuggestions(suggestions)
@@ -27,7 +27,7 @@ function Stories() {
 			{
 				suggestions.length && suggestions.map((profile: any) => (
 					<Story 
-						key={profile.name}
+						key={profile.id}
 						avatar={profile.avatar}
 						username={profile.username}
 					/>
