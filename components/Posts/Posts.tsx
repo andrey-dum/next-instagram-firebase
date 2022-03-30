@@ -5,22 +5,16 @@ import { IPost } from '../../types'
 import Post from './Post'
 
 
-export const posts = [
-  {
-      id: 'e',
-      username: 'Jhon Doe',
-      profileImg: 'https://andrey-dum.web.app/static/media/avatar.739caae9.jpg',
-      img: 'https://andrey-dum.web.app/static/media/avatar.739caae9.jpg',
-      caption: 'Hello. This is first post'
-  },
-  // {
-  //     id: '212',
-  //     username: 'Andy',
-  //     userImg: 'https://andrey-dum.web.app/static/media/avatar.739caae9.jpg',
-  //     img: 'https://andrey-dum.web.app/static/media/avatar.739caae9.jpg',
-  //     caption: 'Hello. This is first post'
-  // },
-]
+// export const posts = [
+//   {
+//       id: 'e',
+//       username: 'Jhon Doe',
+//       profileImg: 'https://andrey-dum.web.app/static/media/avatar.739caae9.jpg',
+//       img: 'https://andrey-dum.web.app/static/media/avatar.739caae9.jpg',
+//       caption: 'Hello. This is first post'
+//   },
+ 
+// ]
 
 
 function Posts() {
@@ -30,19 +24,25 @@ function Posts() {
 
   useEffect(() => {
     const unsub = onSnapshot(
-      query(collection(db, 'posts'), orderBy('timestamp', 'desc')), (snapshot: any) => {
+      query(collection(db, 'posts'), 
+      orderBy('timestamp', 'desc')), 
+      (snapshot: any) => {
         setPosts(snapshot.docs.map((doc: DocumentData) => ({
           ...doc.data(),
           id: doc.id
         })))
       })
-      
+
       return unsub
 
       
   }, [db])
 
-  console.log(posts)
+  if(!posts.length) {
+        return (
+          <div className='mt-5 py-10 flex justify-center items-center'>Loading...</div>
+        )
+    }
 
   return (
     <div>
