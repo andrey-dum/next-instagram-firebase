@@ -1,7 +1,9 @@
 export interface IPost {
     id: string;
     username: string;
-    userImg: string;
-    img: string;
+    profileImg: string;
+    image: string;
     caption: string;
+    timestamp: string;
+    likes?: number | string;
 }

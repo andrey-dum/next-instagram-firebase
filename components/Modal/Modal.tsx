@@ -53,9 +53,6 @@ function Modal() {
         setLoading(false)
         setSelectedFile(null)
 
-
-
-
     }
 
     const addImageToPost = (e: React.ChangeEvent<any>) => {

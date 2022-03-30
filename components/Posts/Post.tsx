@@ -10,21 +10,26 @@ import {
     HeartIcon as HeartIconSolid,
     
  } from '@heroicons/react/solid'
+import { useSession } from 'next-auth/react'
 import { IPost } from '../../types'
 
 
 
 function Post({
     username,
-    userImg,
-    img,
-    caption
+    profileImg,
+    image,
+    caption,
+    timestamp
 }: IPost) {
+
+    const {data: session} = useSession()
+    
   return (
     <div className='bg-white mb-7 border rounded-sm'>
         <div className='flex p-4 items-center space-x-2'>
             <img
-                src={userImg}
+                src={profileImg}
                 alt="profile photo"
                 className='h-14 w-14 rounded-full p-1 object-contain border'
                 
@@ -35,20 +40,24 @@ function Post({
 
         <img
             alt="post img"
-            src={img}
+            src={image}
             className=' object-cover w-full'
             
         />
 
-        <div className='flex p-4 justify-between'>
-            <div className='flex space-x-2'>
-                <HeartIcon className='iconBtn' />
-                {/* <HeartIconSolid className='iconBtn' /> */}
-                <ChatIcon className='iconBtn' />
-                <PaperAirplaneIcon className='iconBtn rotate-90' />
-            </div>
-            <BookmarkIcon className='iconBtn' />
-        </div>
+        {
+            session && (
+                <div className='flex p-4 justify-between'>
+                    <div className='flex space-x-2'>
+                        <HeartIcon className='iconBtn' />
+                        {/* <HeartIconSolid className='iconBtn' /> */}
+                        <ChatIcon className='iconBtn' />
+                        <PaperAirplaneIcon className='iconBtn rotate-90' />
+                    </div>
+                    <BookmarkIcon className='iconBtn' />
+                </div>
+            )
+        }
 
         <div className='p-4 '>
             <span className='font-bold mr-1'>
@@ -63,16 +72,19 @@ function Post({
         <div></div>
 
         {/* form */}
-        <form className='flex items-center p-4 space-x-3'>
-            <EmojiHappyIcon className='h-7' />
-            <input 
-                type="text"
-                placeholder='Add a comment...'
-                className='flex-1 border-none focus:ring-0 outline-none rounded-sm'
-            />
-            {/* <button className=" font-semibold text-blue-400">Post</button> */}
-            <PaperAirplaneIcon className='h-7 rotate-90 cursor-pointer' /> 
-        </form>
+        { session && (
+            <form className='flex items-center p-4 space-x-3'>
+                <EmojiHappyIcon className='h-7' />
+                <input 
+                    type="text"
+                    placeholder='Add a comment...'
+                    className='flex-1 border-none focus:ring-0 outline-none rounded-sm'
+                />
+                {/* <button className=" font-semibold text-blue-400">Post</button> */}
+                <PaperAirplaneIcon className='h-7 rotate-90 cursor-pointer' /> 
+            </form>
+            )
+        }
       
     </div>
   )
