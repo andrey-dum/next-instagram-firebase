@@ -10,7 +10,7 @@ import {
     HeartIcon as HeartIconSolid,
     
  } from '@heroicons/react/solid'
-import { addDoc, collection, DocumentData, onSnapshot, orderBy, query, serverTimestamp } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, DocumentData, onSnapshot, orderBy, query, serverTimestamp, setDoc } from 'firebase/firestore'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import Moment from 'react-moment'
@@ -31,8 +31,11 @@ function Post({
     const {data: session} = useSession()
     const [comment, setComment] = useState('')
     const [comments, setComments] = useState([])
+    const [likes, setLikes] = useState([])
+    const [hasLiked, setHasLiked] = useState(false)
 
     useEffect(() => {
+        
         const unsub = onSnapshot(
           query(collection(db, "posts", id, "comments"), 
           orderBy('timestamp', 'desc')), 
@@ -44,9 +47,39 @@ function Post({
           })
     
           return unsub
-    
           
-      }, [db])
+      }, [db, id])
+
+    useEffect(() => {
+        onSnapshot(
+          collection(db, "posts", id, "likes"), 
+          (snapshot: any) => {
+            // setLikes(snapshot.docs.map((doc: DocumentData) => ({
+            //     ...doc.data(),
+            //     id: doc.id
+            //   })))
+            setLikes(snapshot.docs)
+      
+          })
+      }, [db, id])
+
+    useEffect(() => {
+            setHasLiked(
+                likes?.findIndex((like) => (like.id === session?.user?.email)) !== - 1
+            )
+      
+      }, [likes])
+
+    const likePost = async () => {
+        if(hasLiked) {
+            await deleteDoc(doc(db, "posts", id, "likes", session?.user?.email))
+        } else {
+            await setDoc(doc(db, "posts", id, "likes", session?.user?.email), {
+                username: session?.user?.name
+            })
+        }
+    }
+     
 
     const sendComment = async (e: any) => {
         e.preventDefault()
@@ -86,7 +119,13 @@ function Post({
             session && (
                 <div className='flex p-4 justify-between'>
                     <div className='flex space-x-2'>
-                        <HeartIcon className='iconBtn' />
+                        {
+                            hasLiked ? (
+                                <HeartIconSolid onClick={likePost} className='iconBtn text-red-500' />
+                            ) : (
+                                <HeartIcon onClick={likePost} className='iconBtn' />
+                            )
+                        }
                         {/* <HeartIconSolid className='iconBtn' /> */}
                         <ChatIcon className='iconBtn' />
                         <PaperAirplaneIcon className='iconBtn rotate-90' />
@@ -97,6 +136,10 @@ function Post({
         }
 
         <div className='p-4 '>
+        {likes.length > 0 && (
+            <p className='font-bold mb-1'>{likes.length} likes</p>
+        )}
+
             <span className='font-bold mr-1'>
                 {username}
             </span>
@@ -104,27 +147,27 @@ function Post({
             {caption}
         </div>
 
-        {comments.length && (
+        {session && comments.length > 0 && (
             <div className=' ml-10 h-20 overflow-y-scroll scrollbar-thumb-black scrollbar-thin'>
         
                 {comments.map((comment: IComment) => (
                     <div
-                        key={comment.id}
+                        key={comment?.id}
                         className='flex items-center space-x-2 mb-3'
                     >
                         <img 
-                            src={comment.userImage}
+                            src={comment?.userImage}
                             className='h-7 rounded-full'
                         />
                         <p className='text-sm flex-1'>
                             <span className='font-bold'>
-                                {comment.username}
+                                {comment?.username}
                             </span>{" "}
-                            {comment.text}
+                            {comment?.text}
                         </p>
 
                         <Moment fromNow className='pr-5 text-xs'>
-                            {comment.timestamp?.toDate()}
+                            {comment?.timestamp?.toDate()}
                         </Moment>
 
                     </div>

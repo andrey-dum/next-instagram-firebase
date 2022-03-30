@@ -40,14 +40,14 @@ function Posts() {
 
   if(!posts.length) {
         return (
-          <div className='mt-5 py-10 flex justify-center items-center'>Loading...</div>
+          <div className='mt-5 py-10 flex justify-center items-center'>Posts not found.</div>
         )
     }
 
   return (
     <div>
       {
-        posts.length && posts.map((post: IPost) => (
+        posts.length > 0 && posts.map((post: IPost) => (
           <Post
             key={post.id}
             id={post.id}
